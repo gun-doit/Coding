@@ -3,5 +3,5 @@
 
 ---
 <img src="http://mazandi.herokuapp.com/api?handle=watergun0613&theme=Dark"/>
-<img src="http://mazandi.herokuapp.com/api?handle=yeongu3113&theme=Dark"/>
-<img src="http://mazandi.herokuapp.com/api?handle=bibi0218&theme=Dark"/>
+<img src="http://mazandi.herokuapp.com/api?handle=yeongu3113&theme=warm"/>
+<img src="http://mazandi.herokuapp.com/api?handle=bibi0218&theme=cold"/>
