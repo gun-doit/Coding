@@ -11,6 +11,8 @@ C = list(map(int, input().split()))
 result = []
 
 for num in C:
+    if len(result) == M:
+        break
     deq.appendleft(num)
     result.append(deq.pop())
 print(*result)
