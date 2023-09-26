@@ -1,61 +1,65 @@
-#include<iostream>
-#include<vector>
-#include<limits.h>
-#include<math.h>
-#include<string.h>
-#define x 0
-#define y 1
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int P[21][2] = {0,};
-int sumxy[2];
-int count = 0;
-double minvalue = __DBL_MAX__;
+int T, N;
+double result = 1000000000.0;
+bool visited[21] = {false,};
+pair<int,int> pos[21];
+pair<int,int> group1, group2;
 
-void dfs(int P[21][2], int sum[2], int point, int n, int size){
-    if(point >= size) return;    
-    if(n == 0){
-        double value = sqrt(pow((double)sum[x],2) + pow((double)sum[y],2));
-        if(minvalue - value > 0.0) minvalue = value;
-        return;
+double solution(){
+    group1 = {0,0};
+    group2 = {0,0};
+
+    for(int i = 0; i<N; i++){
+        if(visited[i]){
+            group1.first += pos[i].first;
+            group1.second += pos[i].second;
+        }else{
+            group2.first += pos[i].first;
+            group2.second += pos[i].second;
+        }
     }
-   
-    if(n > 0 && point < size){
-        sum[x] -= 2*P[point][x];
-        sum[y] -= 2*P[point][y];
-        dfs(P,sum,point+1,n-1,size);
-        sum[x] += 2*P[point][x];
-        sum[y] += 2*P[point][y];
+    return sqrt(pow(group1.first - group2.first, 2) + pow(group1.second - group2.second, 2));
+}
+
+
+void dfs(int remain, int startidx){
+    if(remain == 0){
+        double len = solution();
+        if(result > len) result = len;
     }
-    dfs(P,sum,point+1,n,size);
+    else{
+        for(int i = startidx; i < N; i++){
+            if(!visited[i]){
+                visited[i] = true;
+                dfs(remain-1, i);
+                visited[i] = false;
+            }
+        }
+    }
+}
+
+void Answer(){
+    cin >> T;
+    for(int i = 0; i<T; i++){
+        result = 1000000000.0;
+        cin >> N;
+        for(int j = 0; j < N; j++){
+            cin >> pos[j].first >> pos[j].second;
+        }
+        
+        dfs(N/2, 0);
+        cout << fixed;
+        cout.precision(7);
+        cout << result << '\n';
+    }
 }
 
 int main(){
-    int TestCase, PointC = 0;    
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
 
-    //입력
-    cin >> TestCase;
-    for(int i = 0; i<TestCase; i++){
-        cin >> PointC;
-
-        //변수 초기화
-        minvalue = __DBL_MAX__;
-        memset(sumxy,0.0,sizeof(sumxy));
-        memset(P, 0.0,sizeof(P));
-
-        for(int j = 0; j<PointC; j++){
-            cin >> P[j][x] >> P[j][1];
-            sumxy[x] += P[j][x];
-            sumxy[y] += P[j][y];
-        }
-        count = 0;
-        dfs(P,sumxy,0,PointC/2,PointC);
-        printf("%.6lf\n", minvalue); 
-    }
-    
-
-
-    //출력
+    Answer();
+    return 0;
 }
-
